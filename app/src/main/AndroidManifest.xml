@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.ecommerce">
+
+    <uses-permission android:userName="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:userName="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:userName=".Buyers.SearchActivity"></activity>
+        <activity android:userName=".Sellers.SellerLoginActivity" />
+        <activity android:userName=".Sellers.SellerRegistrationActivity" />
+        <activity
+            android:userName=".Sellers.SellerHomeActivity"
+            android:label="@string/title_activity_seller_home" />
+        <activity android:userName=".Admin.AdminUserProductsActivity" />
+        <activity android:userName=".Admin.AdminCheckNewProductsActivity" />
+        <activity android:userName=".Admin.AdminHomeActivity" />
+        <activity android:userName=".Buyers.ResetPasswordActivity" />
+        <activity android:userName=".Admin.AdminMaintainProductsActivity" />
+        <activity android:userName=".Admin.AdminNewOrdersActivity" />
+        <activity android:userName=".Buyers.ConfirmFinalOrderActivity" />
+        <activity android:userName=".Buyers.CartActivity" />
+        <activity android:userName=".Sellers.SellerProductCategoryActivity" />
+        <activity android:userName=".Buyers.RegisterActivity" />
+        <activity android:userName=".Buyers.LoginActivity" />
+        <activity
+            android:userName=".Buyers.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:userName=".Sellers.SellerAddNewProductActivity" />
+        <activity android:userName=".Buyers.ProductDetailsActivity" />
+        <activity android:userName=".Buyers.SettingsActivity" />
+        <activity android:userName=".Buyers.MainActivity">
+            <intent-filter>
+                <action android:userName="android.intent.action.MAIN" />
+                <action android:userName="android.intent.action.VIEW" />
+
+                <category android:userName="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:userName="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+    </application>
+
+</manifest>
