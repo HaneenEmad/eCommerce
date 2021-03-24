@@ -40,7 +40,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        productId = getIntent().getStringExtra("pid");
+        productId = getIntent().getStringExtra("productId");
 
         addToCartBtn = findViewById(R.id.product_details_add_product_to_cart_btn);
         addOneButton = findViewById(R.id.product_details_number_add_btn);
@@ -54,18 +54,20 @@ public class ProductDetailsActivity extends AppCompatActivity {
         addOneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int counter = Integer.parseInt(countTextView.getText().toString());
+                String stCounter = countTextView.getText().toString();
+                int counter = Integer.parseInt(stCounter);
                 counter++;
-                countTextView.setText(counter);
+                countTextView.setText(String.valueOf(counter));
             }
         });
 
         minusOneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int counter = Integer.parseInt(countTextView.getText().toString());
-                counter++;
-                countTextView.setText(counter);
+                String stCounter = countTextView.getText().toString();
+                int counter = Integer.parseInt(stCounter);
+                counter--;
+                countTextView.setText(String.valueOf(counter));
             }
         });
 
@@ -106,7 +108,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         final DatabaseReference cartListRef = FirebaseDatabase.getInstance().getReference().child("Cart List");
 
         final HashMap<String, Object> cartMap = new HashMap<>();
-        cartMap.put("pid", productId);
+        cartMap.put("productId", productId);
         cartMap.put("pname", productName.getText().toString());
         cartMap.put("price", productPrice.getText().toString());
         cartMap.put("date", saveCurrentDate);
@@ -128,7 +130,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()){
-                                                Toast.makeText(ProductDetailsActivity.this, "Added ti Cart List.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(ProductDetailsActivity.this, "Added to Cart List.", Toast.LENGTH_SHORT).show();
                                                 startActivity(new Intent(ProductDetailsActivity.this, HomeActivity.class));
                                             }
                                         }
@@ -151,7 +153,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     productName.setText(products.getPname());
                     productDescription.setText(products.getDescription());
                     productPrice.setText(products.getPrice());
-                    Picasso.get().load(products.getImage()).into(productImage);
+                    Picasso.get().load(products.getDownloadImageUrl()).into(productImage);
                 }
             }
 

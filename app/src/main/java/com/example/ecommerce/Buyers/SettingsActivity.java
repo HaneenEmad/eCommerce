@@ -6,19 +6,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ecommerce.Model.Users;
 import com.example.ecommerce.Prevalent.Prevalent;
 import com.example.ecommerce.R;
+import com.example.ecommerce.Sellers.SellerAddNewProductActivity;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -42,6 +49,7 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText editTextFullName, editTextUserPhone, editTextAddress;
     private TextView profileChangeTextBtn, closeTextBtn, updateTextBtn;
     private Button securityQuestionBtn;
+    private String name, phone, address;
 
     private Uri imageUri;
     private String myUrl = "";
@@ -125,12 +133,17 @@ public class SettingsActivity extends AppCompatActivity {
     private void UpdateOnlyUserInfo() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("name",editTextFullName.getText().toString());
-        userMap.put("address",editTextAddress.getText().toString());
-        userMap.put("PhoneNumber",editTextUserPhone.getText().toString());
+        name = editTextFullName.getText().toString();
+        phone = editTextUserPhone.getText().toString();
+        address = editTextAddress.getText().toString();
+        Users users = new Users(name,phone,address);
 
-        ref.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
+//        HashMap<String, Object> userMap = new HashMap<>();
+//        userMap.put("name",editTextFullName.getText().toString());
+//        userMap.put("address",editTextAddress.getText().toString());
+//        userMap.put("PhoneNumber",editTextUserPhone.getText().toString());
+
+        ref.child(Prevalent.currentOnlineUser.getPhone()).setValue(users);
 
         startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
         Toast.makeText(SettingsActivity.this, "Profile Info update success", Toast.LENGTH_SHORT).show();
@@ -156,50 +169,106 @@ public class SettingsActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
+
         if (imageUri != null){
             final StorageReference fileRef = storageProfileImageRef
                     .child(Prevalent.currentOnlineUser.getPhone() + ".jpg");
 
             uploadTask = fileRef.putFile(imageUri);
 
-            uploadTask.continueWithTask(new Continuation() {
+            uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
-                public Object then(@NonNull Task task) throws Exception {
-                    if (! task.isSuccessful()){
-                        throw task.getException();
-                    }
-
-                    return fileRef.getDownloadUrl();
+                public void onFailure(@NonNull Exception e) {
+                    String errorMessage = e.toString();
+                    progressDialog.dismiss();
+                    Toast.makeText(SettingsActivity.this, "Error : " + errorMessage, Toast.LENGTH_SHORT).show();
                 }
+//            }
+//                @Override
+//                public Object then(@NonNull Task task) throws Exception {
+//                    if (! task.isSuccessful()){
+//                        throw task.getException();
+//                    }
+//
+//                    return fileRef.getDownloadUrl();
+//                }
             })
-                    .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            fileRef.child("Product Images").child(Prevalent.currentOnlineUser.getPhone()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+//                                    if (task.isSuccessful()) {
+//                                        Uri downloadUrl = task.getResult();
+                                        myUrl = uri.toString();
+//                                    }else {
+//                                        Toast.makeText(SettingsActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+                                    name = editTextFullName.getText().toString();
+                                    phone = editTextUserPhone.getText().toString();
+                                    address = editTextAddress.getText().toString();
+                                    Users users = new Users(name,phone,myUrl,address);
 
-                            if (task.isSuccessful()){
-                                Uri downloadUrl = task.getResult();
-                                myUrl = downloadUrl.toString();
+                                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
 
-                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+                                    ref.child(Prevalent.currentOnlineUser.getPhone()).setValue(users);
 
-                                HashMap<String, Object> userMap = new HashMap<>();
-                                userMap.put("name",editTextFullName.getText().toString());
-                                userMap.put("address",editTextAddress.getText().toString());
-                                userMap.put("PhoneNumber",editTextUserPhone.getText().toString());
-                                userMap.put("image", myUrl);
+                                    progressDialog.dismiss();
 
-                                ref.child(Prevalent.currentOnlineUser.getPhone()).updateChildren(userMap);
+                                    Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
+                                    intent.putExtra("username", name);
+                                    imageViewProfile.buildDrawingCache();
+                                    Bitmap bitmap = imageViewProfile.getDrawingCache();
+                                    intent.putExtra("BitmapImage", bitmap);
 
-                                progressDialog.dismiss();
-
-                                startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
-                                Toast.makeText(SettingsActivity.this, "Profile Info update success", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }else {
-                                progressDialog.dismiss();
-                                Toast.makeText(SettingsActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                            }
+                                    startActivity(intent);
+                                    Toast.makeText(SettingsActivity.this, "Profile Info update success", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            });
                         }
+
+//                        @Override
+//                        public void onComplete(@NonNull final Task<Uri> task) {
+//
+//                            if (task.isSuccessful()){
+//
+//
+////                                name = editTextFullName.getText().toString();
+////                                phone = editTextUserPhone.getText().toString();
+////                                address = editTextAddress.getText().toString();
+////                                Users users = new Users(name,phone,myUrl,address);
+////
+////                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Users");
+//
+////                                HashMap<String, Object> userMap = new HashMap<>();
+////                                userMap.put("name",editTextFullName.getText().toString());
+////                                userMap.put("address",editTextAddress.getText().toString());
+////                                userMap.put("PhoneNumber",editTextUserPhone.getText().toString());
+////                                userMap.put("image", myUrl);
+//
+////                                ref.child(Prevalent.currentOnlineUser.getPhone()).setValue(users);
+////
+////                                progressDialog.dismiss();
+////
+////                                Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
+////                                intent.putExtra("username", name);
+////                                imageViewProfile.buildDrawingCache();
+////                                Bitmap bitmap = imageViewProfile.getDrawingCache();
+////                                intent.putExtra("BitmapImage", bitmap);
+////
+////                                startActivity(intent);
+////                                Toast.makeText(SettingsActivity.this, "Profile Info update success", Toast.LENGTH_SHORT).show();
+////                                finish();
+//                            }else {
+//                                progressDialog.dismiss();
+//                                Toast.makeText(SettingsActivity.this, "Error", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+
+
+
                     });
 
         }else {

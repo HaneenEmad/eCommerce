@@ -2,25 +2,27 @@ package com.example.ecommerce.Model;
 
 public class Cart
 {
-    private  String pid,pname,price,quantity,discount;
+    private  String productId,pname,price,quantity,discount,date,time;
 
     public Cart() {
     }
 
-    public Cart(String pid, String pname, String price, String quantity, String discount) {
-        this.pid = pid;
+    public Cart(String productId, String pname, String price, String quantity, String discount, String date, String time) {
+        this.productId = productId;
         this.pname = pname;
         this.price = price;
         this.quantity = quantity;
         this.discount = discount;
+        this.date = date;
+        this.time = time;
     }
 
-    public String getPid() {
-        return pid;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setPid(String pid) {
-        this.pid = pid;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getPname() {
@@ -53,5 +55,21 @@ public class Cart
 
     public void setDiscount(String discount) {
         this.discount = discount;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

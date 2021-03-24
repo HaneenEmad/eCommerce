@@ -19,9 +19,6 @@ public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         txtProductPrice=itemView.findViewById(R.id.cart_product_price);
         txtProductQuantity=itemView.findViewById(R.id.cart_product_quantity);
 
-
-
-
     }
 
 

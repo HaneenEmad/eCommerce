@@ -7,7 +7,7 @@
     tools:context=".Sellers.SellerAddNewProductActivity">
 
     <ImageView
-        android:id="@+id/admin_add_new_product_select_image_iv"
+        android:id="@+id/seller_add_new_product_select_image_iv"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:scaleType="fitXY"
@@ -15,65 +15,68 @@
         android:layout_width="350dp"
         android:layout_height="200dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/admin_add_new_product_product_name_etlo"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="45dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_below="@id/admin_add_new_product_select_image_iv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/admin_add_new_product_product_name_etlo"-->
+<!--        android:layout_marginLeft="45dp"-->
+<!--        android:layout_marginRight="45dp"-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--        android:layout_below="@id/admin_add_new_product_select_image_iv"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/admin_add_new_product_product_name_et"
+        <EditText
+            android:id="@+id/seller_add_new_product_product_name_et"
             android:layout_marginTop="20dp"
             android:inputType="textMultiLine"
             android:hint="Product Name... "
+            android:layout_below="@id/seller_add_new_product_select_image_iv"
             android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/admin_add_new_product_product_description_etlo"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="45dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_below="@id/admin_add_new_product_product_name_etlo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/admin_add_new_product_product_description_etlo"-->
+<!--        android:layout_marginLeft="45dp"-->
+<!--        android:layout_marginRight="45dp"-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--        android:layout_below="@id/admin_add_new_product_product_name_etlo"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/admin_add_new_product_product_description_et"
+        <EditText
+            android:id="@+id/seller_add_new_product_product_description_et"
             android:layout_marginTop="6dp"
             android:inputType="textMultiLine"
             android:hint="Product Description... "
+            android:layout_below="@id/seller_add_new_product_product_name_et"
             android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/admin_add_new_product_product_price_etlo"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="45dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_below="@id/admin_add_new_product_product_description_etlo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/admin_add_new_product_product_price_etlo"-->
+<!--        android:layout_marginLeft="45dp"-->
+<!--        android:layout_marginRight="45dp"-->
+<!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--        android:layout_below="@id/admin_add_new_product_product_description_etlo"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/admin_add_new_product_product_price_et"
+        <EditText
+            android:id="@+id/seller_add_new_product_product_price_et"
             android:layout_marginTop="6dp"
             android:inputType="textMultiLine"
             android:hint="Product Price... "
+            android:layout_below="@id/seller_add_new_product_product_description_et"
             android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <Button
         android:textColor="@android:color/white"
@@ -81,11 +84,11 @@
         android:textSize="18sp"
         android:textAllCaps="false"
         android:padding="20dp"
-        android:id="@+id/admin_add_new_product_add_btn"
+        android:id="@+id/seller_add_new_product_add_btn"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="45dp"
         android:layout_marginRight="45dp"
-        android:layout_below="@id/admin_add_new_product_product_price_etlo"
+        android:layout_below="@id/seller_add_new_product_product_price_et"
         android:background="@drawable/button_design"
         android:text="Add Product"
         android:layout_width="match_parent"

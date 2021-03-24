@@ -88,7 +88,7 @@
             android:layout_width="90dp"
             android:layout_height="80dp"
             android:id="@+id/hats"
-            android:src="@drawable/hat"
+            android:src="@drawable/hat1"
             />
         <ImageView
             android:layout_width="90dp"
@@ -115,7 +115,7 @@
             android:id="@+id/headphone_handfree"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/headphone" />
+            android:src="@drawable/headphone1" />
 
         <ImageView
             android:id="@+id/laptop_pc"

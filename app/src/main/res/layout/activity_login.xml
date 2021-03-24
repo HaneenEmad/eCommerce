@@ -10,13 +10,14 @@
 
     <ImageView
         android:id="@+id/Login_app_logo"
-        android:layout_width="160dp"
-        android:layout_height="135dp"
+        android:layout_width="180dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/logooo"
+        android:layout_marginTop="90dp"
+        android:src="@drawable/logooo1"
         />
     <EditText
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/log_in_phone_number_input"

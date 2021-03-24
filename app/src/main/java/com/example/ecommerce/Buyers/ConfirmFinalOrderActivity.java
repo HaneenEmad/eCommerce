@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ecommerce.Model.Orders;
 import com.example.ecommerce.Prevalent.Prevalent;
 import com.example.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,12 +21,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class ConfirmFinalOrderActivity extends AppCompatActivity {
     private EditText nameEditText,phoneEditText,addressEditText,cityEditText;
     private Button confirmOrderBtn;
     private String totalAmount="";
+    private String name, phone, address, city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,20 +51,31 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
         phoneEditText=findViewById(R.id.shippment_phone_number);
         addressEditText=findViewById(R.id.shippment_address);
         cityEditText=findViewById(R.id.shippment_city);
+
+//        name = nameEditText.getText().toString();
+//        phone = phoneEditText.getText().toString();
+//        address = addressEditText.getText().toString();
+//        city = cityEditText.getText().toString();
+
     }
 
     //me
     private void check() {
-        if (TextUtils.isEmpty(nameEditText.getText().toString())){
+        name = nameEditText.getText().toString();
+        phone = phoneEditText.getText().toString();
+        address = addressEditText.getText().toString();
+        city = cityEditText.getText().toString();
+
+        if (TextUtils.isEmpty(name)){
             Toast.makeText(this, "Please provide your full name", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(phoneEditText.getText().toString())){
+        else if (TextUtils.isEmpty(phone)){
             Toast.makeText(this, "Please provide your phone number", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(addressEditText.getText().toString())){
+        else if (TextUtils.isEmpty(address)){
             Toast.makeText(this, "Please provide your address", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(cityEditText.getText().toString())){
+        else if (TextUtils.isEmpty(city)){
             Toast.makeText(this, "Please provide your city name", Toast.LENGTH_SHORT).show();
         }
         else {
@@ -84,18 +96,20 @@ public class ConfirmFinalOrderActivity extends AppCompatActivity {
         final DatabaseReference ordersRef = FirebaseDatabase.getInstance().getReference()
                 .child("Orders").child(Prevalent.currentOnlineUser.getPhone());
 
-        HashMap<String, Object> ordersMap = new HashMap<>();
+        Orders orders = new Orders(name,phone, address,city,totalAmount, saveCurrentDate, saveCurrentTime,"not shipped");
 
-        ordersMap.put("totalAmount", totalAmount);
-        ordersMap.put("name", nameEditText.getText().toString());
-        ordersMap.put("price", phoneEditText.getText().toString());
-        ordersMap.put("address", addressEditText.getText().toString());
-        ordersMap.put("city", cityEditText.getText().toString());
-        ordersMap.put("date", saveCurrentDate);
-        ordersMap.put("time", saveCurrentTime);
-        ordersMap.put("state", "not shipped");
+//        HashMap<String, Object> ordersMap = new HashMap<>();
+//
+//        ordersMap.put("totalAmount", totalAmount);
+//        ordersMap.put("name", nameEditText.getText().toString());
+//        ordersMap.put("price", phoneEditText.getText().toString());
+//        ordersMap.put("address", addressEditText.getText().toString());
+//        ordersMap.put("city", cityEditText.getText().toString());
+//        ordersMap.put("date", saveCurrentDate);
+//        ordersMap.put("time", saveCurrentTime);
+//        ordersMap.put("state", "not shipped");
 
-        ordersRef.updateChildren(ordersMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+        ordersRef.setValue(orders).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){

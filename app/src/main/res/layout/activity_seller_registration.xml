@@ -10,7 +10,7 @@
         android:id="@+id/img_seller"
         android:scaleType="fitXY"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:src="@drawable/seller_registeration"
         />
     <TextView

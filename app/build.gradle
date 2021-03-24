@@ -6,7 +6,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.ecommerce"
-        minSdkVersion 22
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.google.android.material:material:1.1.0'
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
     implementation 'com.github.rey5137:material:1.2.0'
     implementation 'io.paperdb:paperdb:2.6'

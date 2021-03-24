@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.ecommerce.Interface.ItemClickListener;
 import com.example.ecommerce.Model.Products;
 import com.example.ecommerce.R;
 import com.example.ecommerce.ViewHolder.ProductViewHolder;
@@ -58,15 +57,15 @@ public class AdminCheckNewProductsActivity extends AppCompatActivity {
                     @Override
                     protected void onBindViewHolder(@NonNull ProductViewHolder productViewHolder, int i, @NonNull final Products products) {
 
-                        productViewHolder.textViewProductName.setText(products.getPname());
+                        productViewHolder.textViewProductName.setText(products.getName());
                         productViewHolder.textViewProductDescription.setText(products.getDescription());
                         productViewHolder.textViewProductPrice.setText("Price = " + products.getPrice() + "$");
-                        Picasso.get().load(products.getImage()).into(productViewHolder.imageViewProduct);
+                        Picasso.get().load(products.getDownloadImageUrl()).into(productViewHolder.imageViewProduct);
 
                         productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                final String productId = products.getPid();
+                                final String productId = products.getProductId();
 
                                 CharSequence options[] = new CharSequence[]{
                                         "yes",
@@ -111,7 +110,8 @@ public class AdminCheckNewProductsActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(AdminCheckNewProductsActivity.this, "That item has been Approved, and it is now available for sale from seller.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminCheckNewProductsActivity.this, "That item has been Approved, and it is now available for sale from seller.", Toast.LENGTH_SHORT).show();
+
                     }
                 });
     }

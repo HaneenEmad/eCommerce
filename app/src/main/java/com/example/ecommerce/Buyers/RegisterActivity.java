@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ecommerce.Admin.AdminRegisterActivity;
 import com.example.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,13 +25,22 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
-    Button CreateAccountbutton;
+    Button CreateAccountbutton, RegisterAsAdminButton;
     EditText inputname,inputnumber,inputpassword;
     ProgressDialog LoadingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        RegisterAsAdminButton = findViewById(R.id.register_as_admin_btn);
+
+        RegisterAsAdminButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, AdminRegisterActivity.class));
+            }
+        });
 
         CreateAccountbutton=findViewById(R.id.register_btn);
         inputname=findViewById(R.id.register_username_input);

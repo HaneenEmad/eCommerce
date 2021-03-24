@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.ecommerce.Buyers.HomeActivity;
 import com.example.ecommerce.Buyers.MainActivity;
+import com.example.ecommerce.Model.AdminOrders;
 import com.example.ecommerce.R;
 import com.example.ecommerce.Sellers.SellerProductCategoryActivity;
 
@@ -30,7 +31,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         checkApprovBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AdminHomeActivity.this, AdminNewOrdersActivity.class));
+                startActivity(new Intent(AdminHomeActivity.this, AdminCheckNewProductsActivity.class));
             }
         });
 
@@ -47,7 +48,7 @@ public class AdminHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminHomeActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
@@ -56,7 +57,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         checkOrdersBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AdminHomeActivity.this, AdminCheckNewProductsActivity.class));
+                startActivity(new Intent(AdminHomeActivity.this, AdminNewOrdersActivity.class));
             }
         });
 

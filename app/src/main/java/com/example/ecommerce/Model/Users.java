@@ -14,6 +14,20 @@ public class Users {
         this.Address = address;
     }
 
+    public Users(String name, String phone, String image, String address) {
+        this.userName = name;
+        this.Phone = phone;
+        this.image = image;
+        this.Address = address;
+    }
+    public Users(String name, String phone, String address) {
+        this.userName = name;
+        this.Phone = phone;
+        this.Address = address;
+    }
+
+
+
     public String getUserName() {
         return userName;
     }
@@ -52,5 +66,16 @@ public class Users {
 
     public void setAddress(String address) {
         this.Address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "userName='" + userName + '\'' +
+                ", Phone='" + Phone + '\'' +
+                ", Password='" + Password + '\'' +
+                ", image='" + image + '\'' +
+                ", Address='" + Address + '\'' +
+                '}';
     }
 }

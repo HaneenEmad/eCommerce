@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 public class SearchActivity extends AppCompatActivity {
+
     private Button SearchBtn;
     private EditText inputText;
     private RecyclerView searchList;
@@ -51,11 +52,11 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Productd");
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference().child("Product");
 
         FirebaseRecyclerOptions<Products>options=
                 new FirebaseRecyclerOptions.Builder<Products>()
-                        .setQuery(reference.orderByChild("Pname").startAt(SearchInput),Products.class).build();
+                        .setQuery(reference.orderByChild("pname").startAt(SearchInput),Products.class).build();
 
 
         FirebaseRecyclerAdapter<Products, ProductViewHolder>adapter=
@@ -65,13 +66,13 @@ public class SearchActivity extends AppCompatActivity {
                     { productViewHolder.textViewProductName.setText(products.getPname());
                         productViewHolder.textViewProductDescription.setText(products.getDescription());
                         productViewHolder.textViewProductPrice.setText("Price = " + products.getPrice() + "$");
-                        Picasso.get().load(products.getImage()).into(productViewHolder.imageViewProduct);
+                        Picasso.get().load(products.getDownloadImageUrl()).into(productViewHolder.imageViewProduct);
 
                         productViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(SearchActivity.this, ProductDetailsActivity.class);
-                                intent.putExtra("pid", products.getPid());
+                                intent.putExtra("productId", products.getSid());
                                 startActivity(intent);
                             }
                         });

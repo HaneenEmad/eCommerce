@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="17sp"
-        android:text="Chang profile image"
+        android:text="Chang profile downloadImageUrl"
         android:textColor="@android:color/black"/>
 
     <EditText

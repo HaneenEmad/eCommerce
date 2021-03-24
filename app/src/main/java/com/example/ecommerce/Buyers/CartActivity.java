@@ -1,10 +1,12 @@
 package com.example.ecommerce.Buyers;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +22,8 @@ import com.example.ecommerce.R;
 import com.example.ecommerce.ViewHolder.CartViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,9 +33,10 @@ import com.google.firebase.database.ValueEventListener;
 public class CartActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private  RecyclerView.LayoutManager layoutManager;
-    private Button NextProcessBtn;
-    private TextView txtTotalAmount;
-    private int overTotalPrice=0;
+//    private TextView txtTotalAmount;
+    private TextView totalPrice;
+//    private  String totalPriceSt;
+    private int totalPriceInt;
 
     //me
     private Button nextProcessBtn;
@@ -46,32 +51,29 @@ public class CartActivity extends AppCompatActivity {
         layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        NextProcessBtn=findViewById(R.id.next_process_btn);
-        txtTotalAmount=findViewById(R.id.total_price);
+        nextProcessBtn=findViewById(R.id.next_process_btn);
+//        txtTotalAmount=findViewById(R.id.total_amount);
 
-        NextProcessBtn.setOnClickListener(new View.OnClickListener() {
+        totalPrice = findViewById(R.id.total_price);
+        totalPrice.setText("Total Price = LE" + totalPriceInt);
+
+//        totalPriceInt = Integer.parseInt(totalPrice.getText().toString());
+
+        txtMsg1 = findViewById(R.id.cart_msg1);
+
+        nextProcessBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                txtTotalAmount.setText("Total Price= LE" + String.valueOf(overTotalPrice) );
+//                totalPrice.setText("Total Price = LE" + totalPriceInt);
 
                 Intent intent=new Intent(CartActivity.this, ConfirmFinalOrderActivity.class);
-                intent.putExtra("Total Price",String.valueOf(overTotalPrice));
+                intent.putExtra("Total Price",String.valueOf(totalPriceInt));
                 startActivity(intent);
                 finish();
             }
         });
 
-
-        //me
-        nextProcessBtn = findViewById(R.id.next_process_btn);
-        txtMsg1 = findViewById(R.id.cart_msg1);
-        nextProcessBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     @Override
@@ -89,58 +91,57 @@ public class CartActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull CartViewHolder holder, int position, @NonNull final Cart mode1) {
                 holder.txtProductQuantity.setText("Quantity = " + mode1.getQuantity());
-                holder.txtProductPrice.setText("Price =" + mode1.getPrice() + "LE");
+                holder.txtProductPrice.setText("Price = " + mode1.getPrice() + "LE");
                 holder.txtProductName.setText(mode1.getPname());
-                int oneTypeProductTPrice=((Integer.valueOf((mode1.getPrice()))))* Integer.valueOf(mode1.getQuantity());
-                overTotalPrice=overTotalPrice+oneTypeProductTPrice;
+                int oneTypeProductPrice=((Integer.valueOf((mode1.getPrice()))))* Integer.valueOf(mode1.getQuantity());
+                totalPriceInt += oneTypeProductPrice;
 
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    CharSequence Options[] = new CharSequence[]
+                                            {
+                                                    "Edit",
+                                                    "Remove"
+                                            };
 
-//                holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View view) {
-//                                    CharSequence Options[] = new CharSequence[]
-//                                            {
-//                                                    "Edit",
-//                                                    "Remove"
-//                                            };
-//
-//                                    AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
-//                              //me      //final AlertDialog.Builder builder1 = builder.setTitle("Cart Options");
-//                                    builder.setTitle("Cart Options");
-//                                    builder.setItems(options, new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                                            if(i==0){
-//                                                Intent intent =new Intent(CartActivity.this, ProductDetailsActivity.class);
-//                                                intent.putExtra("Pid",mode1.getPid());
-//                                                startActivity(intent);
-//                                            }
-//                                            if(i==1){
-//                                                cartListRef.child("User View")
-//                                                        .child( Prevalent.currentOnlineUser.getPhone())
-//                                                        .child("Products")
-//                                                        .child(mode1.getPid())
-//                                                        .removeValue()
-//                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                                            @Override
-//                                                            public void onComplete(@NonNull Task<Void> task) {
-//
-//                                                                if(task.isSuccessful()){
-//                                                                    Toast.makeText(CartActivity.this, "Item Removed Successfully.", Toast.LENGTH_SHORT).show();
-//                                                                    Intent intent =new Intent(CartActivity.this, HomeActivity.class);
-//                                                                    startActivity(intent);
-//                                                                }
-//
-//
-//                                                            }
-//                                                        }) // errrrrrror
-//                                            }
-//                                        }
-//                                    });
-//                                    builder.show();
-//                                }
-//                            });
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+                                    //me
+//                                   final AlertDialog.Builder builder1 = builder.setTitle("Cart Options");
+                                    builder.setTitle("Cart Options");
+                                    builder.setItems(Options, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                            if(i==0){
+                                                Intent intent =new Intent(CartActivity.this, ProductDetailsActivity.class);
+                                                intent.putExtra("productId",mode1.getProductId());
+                                                startActivity(intent);
+                                            }
+                                            if(i==1){
+                                                cartListRef.child("User View")
+                                                        .child( Prevalent.currentOnlineUser.getPhone())
+                                                        .child("Products")
+                                                        .child(mode1.getProductId())
+                                                        .removeValue()
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                                if(task.isSuccessful()){
+                                                                    Toast.makeText(CartActivity.this, "Item Removed Successfully.", Toast.LENGTH_SHORT).show();
+                                                                    Intent intent =new Intent(CartActivity.this, HomeActivity.class);
+                                                                    startActivity(intent);
+                                                                }
+                                                            }
+
+                                                        }); // errrrrrror
+                                            }
+                                        }
+                                    });
+                                    builder.show();
+                                }
+                            });
                         }
 
                         @NonNull
@@ -173,7 +174,7 @@ public class CartActivity extends AppCompatActivity {
 
                     if (shippingState.equals("shipped")){
 
-                        txtTotalAmount.setText("Dear " + userName + "\n order is shipped successfully.");
+                        totalPrice.setText("Dear " + userName + "\n order is shipped successfully.");
                         recyclerView.setVisibility(View.GONE);
 
                         txtMsg1.setVisibility(View.VISIBLE);
@@ -185,7 +186,7 @@ public class CartActivity extends AppCompatActivity {
 
                     }
                     else if (shippingState.equals("not shipped")){
-                        txtTotalAmount.setText("Shipping State = not shipped");
+                        totalPrice.setText("Shipping State = not shipped");
                         recyclerView.setVisibility(View.GONE);
 
                         txtMsg1.setVisibility(View.VISIBLE);

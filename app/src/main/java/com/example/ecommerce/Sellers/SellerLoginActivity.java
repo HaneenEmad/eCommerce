@@ -33,7 +33,6 @@ public class SellerLoginActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.seller_login_password);
         emailInput = findViewById(R.id.seller_login_email);
         loginSellerBtn = findViewById(R.id.seller_login_btn);
-        LoadingBar=new ProgressDialog(this);
 
         loginSellerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +46,7 @@ public class SellerLoginActivity extends AppCompatActivity {
 
                 if( !email.equals("")&& !password.equals(""))
                 {
+                    LoadingBar=new ProgressDialog(SellerLoginActivity.this);
                     LoadingBar.setTitle("Seller Account Login");
                     LoadingBar.setMessage("please Wait, while we are checking the credentials.");
                     LoadingBar.setCanceledOnTouchOutside(false);
@@ -60,7 +60,7 @@ public class SellerLoginActivity extends AppCompatActivity {
                                     if (task.isSuccessful()){
 
                                         Intent intent=new Intent(SellerLoginActivity.this,SellerHomeActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
 

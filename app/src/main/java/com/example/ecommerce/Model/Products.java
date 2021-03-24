@@ -2,20 +2,22 @@ package com.example.ecommerce.Model;
 
 public class Products {
 
-    private String pname, description, price, image, category, pid, date, time, productState;
+    private String name, description, price, downloadImageUrl, categoryName, sid, saveCurrentDate, saveCurrentTime, productState,productId, pname;
 
     public Products() {}
 
-    public Products(String pname, String description, String price, String image, String category, String pid, String date, String time, String productState) {
-        this.pname = pname;
+    public Products(String name, String description, String price, String downloadImageUrl, String categoryName, String sid, String saveCurrentDate, String saveCurrentTime, String productState, String productId, String pname) {
+        this.name = name;
         this.description = description;
         this.price = price;
-        this.image = image;
-        this.category = category;
-        this.pid = pid;
-        this.date = date;
-        this.time = time;
+        this.downloadImageUrl = downloadImageUrl;
+        this.categoryName = categoryName;
+        this.sid = sid;
+        this.saveCurrentDate = saveCurrentDate;
+        this.saveCurrentTime = saveCurrentTime;
         this.productState = productState;
+        this.productId = productId;
+        this.pname = pname;
     }
 
     public String getPname() {
@@ -24,6 +26,22 @@ public class Products {
 
     public void setPname(String pname) {
         this.pname = pname;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -42,44 +60,44 @@ public class Products {
         this.price = price;
     }
 
-    public String getImage() {
-        return image;
+    public String getDownloadImageUrl() {
+        return downloadImageUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setDownloadImageUrl(String downloadImageUrl) {
+        this.downloadImageUrl = downloadImageUrl;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public String getPid() {
-        return pid;
+    public String getSid() {
+        return sid;
     }
 
-    public void setPid(String pid) {
-        this.pid = pid;
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 
-    public String getDate() {
-        return date;
+    public String getSaveCurrentDate() {
+        return saveCurrentDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setSaveCurrentDate(String saveCurrentDate) {
+        this.saveCurrentDate = saveCurrentDate;
     }
 
-    public String getTime() {
-        return time;
+    public String getSaveCurrentTime() {
+        return saveCurrentTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setSaveCurrentTime(String saveCurrentTime) {
+        this.saveCurrentTime = saveCurrentTime;
     }
 
     public String getProductState() {
